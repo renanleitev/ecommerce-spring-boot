@@ -4,7 +4,7 @@ Aplicação criada com uso do [Bootify.io](https://bootify.io/next-steps/).
 
 ## Rodando a aplicação
 
-Para rodar a aplicação, basta executar o arquivo principal EcommerceApplication.
+Para rodar a aplicação, basta executar o arquivo principal MyAppApplication.
 
     src/main/java/io/bootify/my_app/EcommerceApplication.java
 
