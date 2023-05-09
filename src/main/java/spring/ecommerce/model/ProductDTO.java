@@ -36,6 +36,4 @@ public class ProductDTO {
     @Size(max = 255)
     private String image;
 
-    private Long user;
-
 }

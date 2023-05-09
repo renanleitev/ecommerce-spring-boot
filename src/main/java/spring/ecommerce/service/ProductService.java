@@ -4,10 +4,8 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import spring.ecommerce.domain.Product;
-import spring.ecommerce.domain.User;
 import spring.ecommerce.model.ProductDTO;
 import spring.ecommerce.repos.ProductRepository;
-import spring.ecommerce.repos.UserRepository;
 import spring.ecommerce.util.NotFoundException;
 
 
@@ -15,12 +13,9 @@ import spring.ecommerce.util.NotFoundException;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
 
-    public ProductService(final ProductRepository productRepository,
-            final UserRepository userRepository) {
+    public ProductService(final ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.userRepository = userRepository;
     }
 
     public List<ProductDTO> findAll() {
@@ -61,7 +56,6 @@ public class ProductService {
         productDTO.setPrice(product.getPrice());
         productDTO.setDescription(product.getDescription());
         productDTO.setImage(product.getImage());
-        productDTO.setUser(product.getUser() == null ? null : product.getUser().getId());
         return productDTO;
     }
 
@@ -72,9 +66,6 @@ public class ProductService {
         product.setPrice(productDTO.getPrice());
         product.setDescription(productDTO.getDescription());
         product.setImage(productDTO.getImage());
-        final User user = productDTO.getUser() == null ? null : userRepository.findById(productDTO.getUser())
-                .orElseThrow(() -> new NotFoundException("user not found"));
-        product.setUser(user);
         return product;
     }
 
