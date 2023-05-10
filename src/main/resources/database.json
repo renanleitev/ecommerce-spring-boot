@@ -1,0 +1,112 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "admin",
+      "surname": "admin",
+      "address": "admin",
+      "email": "admin@email.com",
+      "password": "adminroot"
+    },
+    {
+      "id": 2,
+      "name": "Fulano",
+      "surname": "Silva",
+      "address": "Rua das Conchas, 126",
+      "email": "fulanosilva@email.com",
+      "password": "123456"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Apple iBook",
+      "additionalFeatures": "Front Facing 1.3MP Camera",
+      "os": "Macintosh OS X 10.7",
+      "price": "200.67",
+      "description": "Apple iBook is the best in class computer for your professional and personal work.",
+      "images": "https://upload.wikimedia.org/wikipedia/commons/9/9a/MacBook_Pro.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Samsung Phone",
+      "additionalFeatures": "Front Facing 7.0MP Camera",
+      "os": "Samsung UI 12",
+      "price": "150.67",
+      "description": "Samsung Phone will help you in your most important calls.",
+      "images": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWcgtx1e8qnC6u3tFopg3hCb1L81Tdr1l4tw&usqp=CAU"
+    },
+    {
+      "id": 3,
+      "name": "Xiaomi Phone",
+      "additionalFeatures": "Front Facing 9.9MP Camera",
+      "os": "Xiaomi OS",
+      "price": "179.22",
+      "description": "Xiaomi Phone is the most affordable phone in the world.",
+      "images": "https://www.trustedreviews.com/wp-content/uploads/sites/54/2021/12/Xiaomi-12-leaks.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Dell XPS 12",
+      "additionalFeatures": "Front Facing 1.3MP Camera",
+      "os": "Windows 11",
+      "price": "224.35",
+      "description": "Dell is the most advanced notebook.",
+      "images": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Dell_XPS_12_%282012%29.png"
+    },
+    {
+      "id": 5,
+      "name": "Asus Zenbook",
+      "additionalFeatures": "Front Facing 1.3MP Camera",
+      "os": "Ubuntu Linux",
+      "price": "198.12",
+      "description": "Asus Zenbook is the most zen notebook in the world.",
+      "images": "https://live.staticflickr.com/6152/6254343204_2496efec64_b.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Lenovo Book",
+      "additionalFeatures": "Front Facing 1.3MP Camera",
+      "os": "Windows 11",
+      "price": "121.37",
+      "description": "Lenovo Book is a good notebook.",
+      "images": "https://www.trustedreviews.com/wp-content/uploads/sites/54/2022/01/Lenovo-Yoga-9i_Gen_7_Front_Facing_Oatmeal.png"
+    },
+    {
+      "id": 7,
+      "name": "Notebook AD",
+      "additionalFeatures": "Front Facing 1.3MP Camera",
+      "os": "Windows 10",
+      "price": "207.14",
+      "description": "Acer. The notebook of the future!",
+      "images": "https://www.trustedreviews.com/wp-content/uploads/sites/54/2022/01/Nitro-5-AN517-05-scaled.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Chromebook Acer",
+      "additionalFeatures": "Front Facing 1.3MP Camera",
+      "os": "Chrome OS",
+      "price": "94.56",
+      "description": "Chromebook. Simple, but fast.",
+      "images": "https://live.staticflickr.com/8251/8553344925_744ddcd41c_b.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Tablet S6 Lite",
+      "additionalFeatures": "Front Facing 1.3MP Camera",
+      "os": "Android 12",
+      "price": "150.67",
+      "description": "S6 Lite.",
+      "images": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR12SYcOFuEpZSitroA6I8EEE-EzC5iaxwkRg&usqp=CAU"
+    },
+    {
+      "id": 10,
+      "name": "Ipad Apple",
+      "additionalFeatures": "Front Facing 1.3MP Camera",
+      "os": "Macintosh OS X 10.7",
+      "price": "259.19",
+      "description": "Ipad Apple. Expensive, but flexible.",
+      "images": "https://www.trustedreviews.com/wp-content/uploads/sites/54/2021/09/New-ipad-9.png"
+    }
+  ]
+}

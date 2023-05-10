@@ -1,4 +1,4 @@
-# MyApp
+# Ecommerce Spring Boot
 
 Aplicação criada com uso do [Bootify.io](https://bootify.io/next-steps/).
 

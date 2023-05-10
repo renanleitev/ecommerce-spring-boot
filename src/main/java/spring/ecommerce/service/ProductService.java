@@ -1,12 +1,18 @@
 package spring.ecommerce.service;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import spring.ecommerce.domain.Product;
 import spring.ecommerce.model.ProductDTO;
 import spring.ecommerce.repos.ProductRepository;
 import spring.ecommerce.util.NotFoundException;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -67,6 +73,17 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setImage(productDTO.getImage());
         return product;
+    }
+
+    @Autowired
+    private ProductRepository repository;
+
+
+
+    public List<Product> filterProductsByName (Integer pageNumber, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Page<Product> pagedResult = repository.findAll(paging);
+        return pagedResult.toList();
     }
 
 }
