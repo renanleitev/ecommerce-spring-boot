@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 @Service
 public class ProductService {
 
+    @Autowired
     private final ProductRepository productRepository;
 
     public ProductService(final ProductRepository productRepository) {
@@ -75,14 +76,9 @@ public class ProductService {
         return product;
     }
 
-    @Autowired
-    private ProductRepository repository;
-
-
-
-    public List<Product> filterProductsByName (Integer pageNumber, Integer pageSize) {
+    public List<Product> filterProducts (Integer pageNumber, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
-        Page<Product> pagedResult = repository.findAll(paging);
+        Page<Product> pagedResult = productRepository.findAll(paging);
         return pagedResult.toList();
     }
 

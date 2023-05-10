@@ -1,8 +1,14 @@
 package spring.ecommerce.service;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import spring.ecommerce.domain.Product;
 import spring.ecommerce.domain.User;
 import spring.ecommerce.model.UserDTO;
 import spring.ecommerce.repos.UserRepository;
@@ -12,6 +18,7 @@ import spring.ecommerce.util.NotFoundException;
 @Service
 public class UserService {
 
+    @Autowired
     private final UserRepository userRepository;
 
     public UserService(final UserRepository userRepository) {
@@ -65,6 +72,12 @@ public class UserService {
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
         return user;
+    }
+
+    public List<User> filterUsers (Integer pageNumber, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Page<User> pagedResult = userRepository.findAll(paging);
+        return pagedResult.toList();
     }
 
 }
