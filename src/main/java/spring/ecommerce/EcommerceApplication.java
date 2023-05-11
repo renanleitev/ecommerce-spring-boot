@@ -28,8 +28,8 @@ public class EcommerceApplication implements CommandLineRunner {
     // TODO: Pesquisar como converter o database.JSON para banco de dados
     @Override
     public void run(String... args) throws Exception {
-        /* // Users
-        String[] name = {
+/*        // Users
+        String[] nameUser = {
               "admin",
               "Fulano",
         };
@@ -54,19 +54,19 @@ public class EcommerceApplication implements CommandLineRunner {
                 "123456",
         };
 
-        for(int i = 0; i < name.length; i++) {
+        for(int i = 0; i < nameUser.length; i++) {
             User insertUser = new User();
-            insertUser.setName(name[i]);
+            insertUser.setName(nameUser[i]);
             insertUser.setSurname(surname[i]);
             insertUser.setAddress(address[i]);
             insertUser.setEmail(email[i]);
             insertUser.setPassword(password[i]);
             databaseUser.save(insertUser);
-        }*/
+        }
 
 
-        /* // Products
-        String[] name = {
+        // Products
+        String[] nameProduct = {
                 "Apple iBook",
                 "Samsung Phone",
                 "Xiaomi Phone",
@@ -105,17 +105,17 @@ public class EcommerceApplication implements CommandLineRunner {
                 "Mac OS Catalina",
         };
 
-        String[] price = {
-                "200.67",
-                "150.67",
-                "179.22",
-                "224.35",
-                "198.12",
-                "121.37",
-                "207.14",
-                "94.56",
-                "150.67",
-                "259.19",
+        Double[] price = {
+                200.67,
+                150.67,
+                179.22,
+                224.35,
+                198.12,
+                121.37,
+                207.14,
+                94.56,
+                150.67,
+                259.19,
         };
 
         String[] description = {
@@ -143,9 +143,9 @@ public class EcommerceApplication implements CommandLineRunner {
                 "https://www.trustedreviews.com/wp-content/uploads/sites/54/2021/09/New-ipad-9.png",
         };
 
-        for(int i = 0; i < name.length; i++) {
+        for(int i = 0; i < nameProduct.length; i++) {
             Product insertProduct = new Product();
-            insertProduct.setName(name[i]);
+            insertProduct.setName(nameProduct[i]);
             insertProduct.setAdditionalFeatures(adFeat[i]);
             insertProduct.setOs(os[i]);
             insertProduct.setPrice(price[i]);

@@ -99,6 +99,64 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    // GET products (by name)
+    public List<Product> findProductByName (String name) {
+        return productRepository.findAllByName(name);
+    }
+
+    // GET products (by name LIKE)
+    public List<Product> findProductByNameLike (String name) {
+        return productRepository.findAllByNameLike(name);
+    }
+
+    // GET products (by os)
+    public List<Product> findProductByOs (String os) {
+        return productRepository.findAllByOs(os);
+    }
+
+    // GET products (by os LIKE)
+    public List<Product> findProductByOsLike (String os) {
+        return productRepository.findAllByOsLike(os);
+    }
+
+    // GET products (by additionalFeature)
+    public List<Product> findProductByAdditionalFeatures (String additionalFeature) {
+        return productRepository.findAllByAdditionalFeatures(additionalFeature);
+    }
+
+    // GET products (by additionalFeature LIKE)
+    public List<Product> findProductByAdditionalFeaturesLike (String additionalFeature) {
+        return productRepository.findAllByAdditionalFeaturesLike(additionalFeature);
+    }
+
+    // GET products (by price)
+    public List<Product> findProductByPrice (String price) {
+        return productRepository.findAllByPrice(price);
+    }
+
+
+    // GET products (by price GREATER THAN)
+    public List<Product> findProductByPriceGreaterThan (String price) {
+        return productRepository.findAllByPriceGreaterThan(price);
+    }
+
+    // GET products (by price GREATER THAN OR EQUAL TO)
+    public List<Product> findProductByPriceGreaterThanOrEqualTo (String price) {
+        return productRepository.findAllByPriceGreaterThanOrEqualTo(price);
+    }
+
+    // GET products (by price LESS THAN)
+    public List<Product> findProductByPriceLessThan (String price) {
+        return productRepository.findAllByPriceLessThan(price);
+    }
+
+    // GET products (by price LESS THAN)
+    public List<Product> findProductByPriceLessThanOrEqualTo (String price) {
+        return productRepository.findAllByPriceLessThanOrEqualTo(price);
+    }
+
+
+
     // POST products
     public Long createProductReturnId(final Product product) {
         return productRepository.save(product).getId();

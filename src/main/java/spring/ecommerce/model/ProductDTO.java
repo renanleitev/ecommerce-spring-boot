@@ -25,8 +25,7 @@ public class ProductDTO {
     private String os;
 
     @NotNull
-    @Size(max = 255)
-    private String price;
+    private Double price;
 
     @NotNull
     @Size(max = 255)

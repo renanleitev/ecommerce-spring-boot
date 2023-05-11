@@ -34,7 +34,7 @@ public class Product {
     private String os;
 
     @Column(nullable = false)
-    private String price;
+    private Double price;
 
     @Column(nullable = false, name = "\"description\"")
     private String description;

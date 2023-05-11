@@ -13,12 +13,10 @@ public class ShoppingDTO {
     private Long id;
 
     @NotNull
-    @Size(max = 255)
-    private String quantity;
+    private Integer quantity;
 
     @NotNull
-    @Size(max = 255)
-    private String totalPrice;
+    private Double totalPrice;
 
     private Long user;
 

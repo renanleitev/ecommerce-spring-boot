@@ -31,10 +31,10 @@ public class Shopping {
     private Long id;
 
     @Column(nullable = false)
-    private String quantity;
+    private Integer quantity;
 
     @Column(nullable = false)
-    private String totalPrice;
+    private Double totalPrice;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
