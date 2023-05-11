@@ -25,7 +25,7 @@ public class EcommerceApplication implements CommandLineRunner {
 
     // Toda vez que rodar o servidor, irá inserir os dados no MySQL
     // Usar apenas na primeira vez, descomentar e depois comentar o código abaixo
-    // Existem métodos para percorrer dados em JSON, mas só compensa para grandes dados
+    // TODO: Pesquisar como converter o database.JSON para banco de dados
     @Override
     public void run(String... args) throws Exception {
         /* // Users

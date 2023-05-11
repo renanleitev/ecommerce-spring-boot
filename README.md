@@ -9,9 +9,11 @@ Trocar o nome e a senha do MySQL no arquivo application.yml (default: root/17091
     username: ${JDBC_DATABASE_USERNAME:<<NOME_USUÁRIO>>}
     password: ${JDBC_DATABASE_PASSWORD:<<SENHA>>}
 
+Obs: O banco de dados deve estar rodando antes de iniciar a aplicação Spring Boot.
+
 ## Rodando a aplicação
 
-Para rodar a aplicação, basta executar o arquivo principal MyAppApplication.
+Para rodar a aplicação, basta executar o arquivo principal EcommerceApplication.java.
 
     src/main/java/io/bootify/my_app/EcommerceApplication.java
 
@@ -75,19 +77,21 @@ lastUpdated:
     @Column(nullable = true)
     private OffsetDateTime lastUpdated;
 
-## Erro ao realizar consultas em paginação
+## Erro ao realizar requisições REST
 
-Caso ocorra algum erro durante a paginação (Ex: StackOverflowError - Infinite Recursion), colocar nos models/domains as seguintes anotações JSON:
+Caso ocorra algum erro durante as requisições, colocar nos models/domains as seguintes anotações JSON:
 
 domain > User.java
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonManagedReference
     private Set<Shopping> shoppings;
 
 domain > Product.java
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonManagedReference
     private Set<Shopping> shoppings;
 
@@ -95,11 +99,13 @@ domain > Shopping.java
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonBackReference
     private Product product;
 

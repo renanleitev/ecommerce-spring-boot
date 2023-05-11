@@ -1,6 +1,7 @@
 package spring.ecommerce.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
@@ -39,6 +40,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonManagedReference
     private Set<Shopping> shoppings;
 

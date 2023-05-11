@@ -19,7 +19,7 @@ import spring.ecommerce.service.ProductService;
 
 
 @RestController
-@RequestMapping(value = "/api/products", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/products", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductResource {
 
     private final ProductService productService;

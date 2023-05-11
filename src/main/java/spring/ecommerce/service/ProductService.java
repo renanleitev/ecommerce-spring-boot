@@ -1,6 +1,7 @@
 package spring.ecommerce.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,8 @@ public class ProductService {
     public ProductService(final ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
+    // Endpoints DTO (automatic)
 
     public List<ProductDTO> findAll() {
         final List<Product> products = productRepository.findAll(Sort.by("id"));
@@ -76,10 +79,49 @@ public class ProductService {
         return product;
     }
 
+    // Endpoints REST (manual)
+
+    // Pagination products (pageNumber, pageSize)
     public List<Product> filterProducts (Integer pageNumber, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<Product> pagedResult = productRepository.findAll(paging);
         return pagedResult.toList();
+    }
+
+    // GET products
+    public List<Product> findAllProducts () {
+        List<Product> productsList = productRepository.findAll();
+        return productsList;
+    }
+
+    // GET products (by id)
+    public Optional<Product> findProductById (final Long id) {
+        return productRepository.findById(id);
+    }
+
+    // POST products
+    public Long createProductReturnId(final Product product) {
+        return productRepository.save(product).getId();
+    }
+
+    // PUT products
+    public void updateProductById(final Long id, final Product productUpdated) {
+        productRepository.findById(id)
+                .map(product -> {
+                    product.setName(productUpdated.getName());
+                    product.setOs(productUpdated.getOs());
+                    product.setPrice(productUpdated.getPrice());
+                    product.setDescription(productUpdated.getDescription());
+                    product.setAdditionalFeatures(productUpdated.getAdditionalFeatures());
+                    product.setImage(productUpdated.getImage());
+                    productRepository.save(product);
+                    return null;
+                });
+    }
+
+    // DELETE products by id
+    public void deleteProductById(final Long id) {
+        productRepository.deleteById(id);
     }
 
 }
