@@ -2,117 +2,130 @@ package spring.ecommerce.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import spring.ecommerce.domain.Product;
-import spring.ecommerce.model.ProductDTO;
 import spring.ecommerce.service.ProductService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping(value = "products")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
-    // Pagination products (pageNumber, pageSize)
-    @GetMapping("/findProduct")
-    public List<Product> getPaginatedProducts(
-            @RequestParam Integer pageNumber,
-            @RequestParam Integer pageSize) {
-        return productService.filterProducts(pageNumber, pageSize);
-    }
-
-    // Find products (by name)
-    @GetMapping("/findProductByName")
-    public List<Product> getProductByName(@RequestParam String name) {
-        return productService.findProductByName(name);
-    }
-
-    // Find products (by name LIKE)
-    @GetMapping("/findProductByNameLike")
-    public List<Product> getProductByNameLike(@RequestParam String name) {
-        return productService.findProductByNameLike(name);
-    }
-
-    // Find products (by additionalFeature)
-    @GetMapping("/findProductByAdditionalFeature")
-    public List<Product> getProductByAdditionalFeature(@RequestParam String additionalFeature) {
-        return productService.findProductByAdditionalFeatures(additionalFeature);
-    }
-
-    // Find products (by additionalFeature LIKE)
-    @GetMapping("/findProductByAdditionalFeatureLike")
-    public List<Product> getProductByAdditionalFeatureLike(@RequestParam String additionalFeature) {
-        return productService.findProductByAdditionalFeaturesLike(additionalFeature);
-    }
-
-    // Find products (by os)
-    @GetMapping("/findProductByOs")
-    public List<Product> getProductByOs(@RequestParam String os) {
-        return productService.findProductByOs(os);
-    }
-
-    // Find products (by os LIKE)
-    @GetMapping("/findProductByOsLike")
-    public List<Product> getProductByOsLike(@RequestParam String os) {
-        return productService.findProductByOsLike(os);
-    }
-
-    // Find products (by price)
-    @GetMapping("/findProductByPrice")
-    public List<Product> getProductByPrice(@RequestParam String price) {
-        return productService.findProductByPrice(price);
-    }
-
-    // GET products (by price GREATER THAN)
-    @GetMapping("/findProductByPriceGreaterThan")
-    public List<Product> getProductByPriceGreaterThan(@RequestParam String price) {
-        return productService.findProductByPriceGreaterThan(price);
-    }
-
-    // GET products (by price GREATER THAN OR EQUAL TO)
-    @GetMapping("/findProductByPriceGreaterThanOrEqualTo")
-    public List<Product> getProductByPriceGreaterThanOrEqualTo(@RequestParam String price) {
-        return productService.findProductByPriceGreaterThanOrEqualTo(price);
-    }
-
-    // GET products (by price LESS THAN)
-    @GetMapping("/findProductByPriceLessThan")
-    public List<Product> getProductByPriceLessThan(@RequestParam String price) {
-        return productService.findProductByPriceLessThan(price);
-    }
-
-    // GET products (by price LESS THAN OR EQUAL TO)
-    @GetMapping("/findProductByPriceLessThanOrEqualTo")
-    public List<Product> getProductByPriceLessThanOrEqualTo(@RequestParam String price) {
-        return productService.findProductByPriceLessThanOrEqualTo(price);
-    }
-
     // GET products
-    @GetMapping("/products")
+    @GetMapping
     public List<Product> getAllProducts() {
         return productService.findAllProducts();
     }
 
+    // Find products (by params)
+
+    // 1ª Opção = Usando Map<String, String> e if/else
+    // Se encontrar a key (param), retorna a função (param value)
+/*    @GetMapping("/params")
+    public List<Product> getProduct(@RequestParam Map<String, String> customQuery) {
+        if (customQuery.containsKey("name")) {
+            return productService.findProductByName(customQuery.get("name"));
+        } else if (customQuery.containsKey("nameLike")) {
+            return productService.findProductByNameLike(customQuery.get("nameLike"));
+        } else if (customQuery.containsKey("additionalFeatures")) {
+            return productService.findProductByAdditionalFeatures(customQuery.get("additionalFeatures"));
+        } else if (customQuery.containsKey("additionalFeaturesLike")) {
+            return productService.findProductByAdditionalFeaturesLike(customQuery.get("additionalFeaturesLike"));
+        } else if (customQuery.containsKey("os")) {
+            return productService.findProductByOs(customQuery.get("os"));
+        } else if (customQuery.containsKey("osLike")) {
+            return productService.findProductByOsLike(customQuery.get("osLike"));
+        } else if (customQuery.containsKey("price")) {
+            return productService.findProductByPrice(customQuery.get("price"));
+        } else if (customQuery.containsKey("priceGreaterThan")) {
+            return productService.findProductByPriceGreaterThan(customQuery.get("priceGreaterThan"));
+        } else if (customQuery.containsKey("priceGreaterThanOrEqualTo")) {
+            return productService.findProductByPriceGreaterThanOrEqualTo(customQuery.get("priceGreaterThanOrEqualTo"));
+        } else if (customQuery.containsKey("priceLessThan")) {
+            return productService.findProductByPriceLessThan(customQuery.get("priceLessThan"));
+        } else if (customQuery.containsKey("priceLessThanOrEqualTo")) {
+            return productService.findProductByPriceLessThanOrEqualTo(customQuery.get("priceLessThanOrEqualTo"));
+        } else if (customQuery.containsKey("pageNumber") && customQuery.containsKey("pageSize")) {
+            return productService.filterProducts(Integer.parseInt(customQuery.get("pageNumber")), Integer.parseInt(customQuery.get("pageSize")));
+        } else {
+            return productService.findAllProducts();
+        }
+    }*/
+
+    // 2ª Opção = @RequestParam(required = false)
+    // Se param for passado, retorna a função (param value)
+    @GetMapping("/params")
+    public List<Product> getProduct(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String nameLike,
+            @RequestParam(required = false) String additionalFeatures,
+            @RequestParam(required = false) String additionalFeaturesLike,
+            @RequestParam(required = false) String os,
+            @RequestParam(required = false) String osLike,
+            @RequestParam(required = false) String price,
+            @RequestParam(required = false) String priceGreaterThan,
+            @RequestParam(required = false) String priceGreaterThanOrEqualTo,
+            @RequestParam(required = false) String priceLessThan,
+            @RequestParam(required = false) String priceLessThanOrEqualTo,
+            @RequestParam(required = false) Integer pageNumber,
+            @RequestParam(required = false) Integer pageSize
+    ){
+        if (name != null){
+            return productService.findProductByName(name);
+        } else if (nameLike != null) {
+            return productService.findProductByNameLike(nameLike);
+        } else if (additionalFeatures != null) {
+            return productService.findProductByAdditionalFeatures(additionalFeatures);
+        } else if (additionalFeaturesLike != null) {
+            return productService.findProductByAdditionalFeaturesLike(additionalFeaturesLike);
+        } else if (additionalFeatures != null) {
+            return productService.findProductByAdditionalFeatures(additionalFeatures);
+        } else if (additionalFeaturesLike != null) {
+            return productService.findProductByAdditionalFeaturesLike(additionalFeaturesLike);
+        } else if (os != null) {
+            return productService.findProductByOs(os);
+        } else if (osLike != null) {
+            return productService.findProductByOsLike(osLike);
+        }
+        else if (price != null) {
+            return productService.findProductByPrice(price);
+        } else if (priceGreaterThan != null) {
+            return productService.findProductByPriceGreaterThan(priceGreaterThan);
+        } else if (priceGreaterThanOrEqualTo != null) {
+            return productService.findProductByPriceGreaterThanOrEqualTo(priceGreaterThanOrEqualTo);
+        } else if (priceLessThan != null) {
+            return productService.findProductByPriceLessThan(priceLessThan);
+        } else if (priceLessThan != null) {
+            return productService.findProductByPriceLessThanOrEqualTo(priceLessThanOrEqualTo);
+        } else if ((pageNumber != null) && (pageSize!= null)) {
+            return productService.filterProducts(pageNumber, pageSize);
+        } else {
+            return productService.findAllProducts();
+        }
+    }
+
     // GET products by id
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     public Optional<Product> getProductById(@PathVariable(name = "id") final Long id) {
         return productService.findProductById(id);
     }
 
     // POST products
-    @PostMapping("/products")
+    @PostMapping
     public Long createProduct(@RequestBody @Valid final Product product) {
         final Long createdId = productService.createProductReturnId(product);
         return createdId;
     }
 
     // PUT products by id
-    @PutMapping("/products/{id}")
+    @PutMapping("/{id}")
     public void updateProduct(
             @PathVariable(name = "id") final Long id,
             @RequestBody @Valid final Product product) {
@@ -120,7 +133,7 @@ public class ProductController {
     }
 
     // DELETE products by id
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable(name = "id") final Long id) {
         productService.deleteProductById(id);
     }
