@@ -14,8 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Pode colocar pageable como segundo argumento, caso queira filtrar por página
     List<Product> findAllByName(String name);
 
-    List<Product> findAllByPrice(String price);
-
     List<Product> findAllByOs(String os);
 
     List<Product> findAllByAdditionalFeatures(String additionalFeatures);
@@ -29,17 +27,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.additionalFeatures LIKE CONCAT('%',:additionalFeatures,'%')")
     List<Product> findAllByAdditionalFeaturesLike(@Param("additionalFeatures") String additionalFeatures);
 
-    @Query("SELECT p FROM Product p WHERE p.price > :price")
-    List<Product> findAllByPriceGreaterThan(@Param("price") String price);
-
-    @Query("SELECT p FROM Product p WHERE p.price >= :price")
-    List<Product> findAllByPriceGreaterThanOrEqualTo(@Param("price") String price);
-
-    @Query("SELECT p FROM Product p WHERE p.price < :price")
-    List<Product> findAllByPriceLessThan(@Param("price") String price);
-
-    @Query("SELECT p FROM Product p WHERE p.price <= :price")
-    List<Product> findAllByPriceLessThanOrEqualTo(@Param("price") String price);
+    @Query("SELECT p FROM Product p WHERE " +
+            "(:operator = 'EqualTo' and p.price = :price) OR" +
+            "(:operator = 'LessThan' and p.price < :price) OR" +
+            "(:operator = 'LessThanOrEqualTo' and p.price <= :price) OR" +
+            "(:operator = 'GreaterThan' and p.price > :price) OR" +
+            "(:operator = 'GreaterThanOrEqualTo' and p.price >= :price)")
+    List<Product> findAllByPriceOperator(@Param("price") String price, @Param("operator") String operator);
 
 
 }

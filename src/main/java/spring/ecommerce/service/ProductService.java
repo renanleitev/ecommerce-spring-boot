@@ -1,6 +1,7 @@
 package spring.ecommerce.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,63 +100,31 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    // GET products (by name)
-    public List<Product> findProductByName (String name) {
-        return productRepository.findAllByName(name);
+    public List<Product> findProduct (Map<String, String> customQuery) {
+        if (customQuery.containsKey("name")) {
+            return productRepository.findAllByName(customQuery.get("name"));
+        } else if (customQuery.containsKey("nameLike")) {
+            return productRepository.findAllByNameLike(customQuery.get("nameLike"));
+        } else if (customQuery.containsKey("additionalFeatures")) {
+            return productRepository.findAllByAdditionalFeatures(customQuery.get("additionalFeatures"));
+        } else if (customQuery.containsKey("additionalFeaturesLike")) {
+            return productRepository.findAllByAdditionalFeaturesLike(customQuery.get("additionalFeaturesLike"));
+        } else if (customQuery.containsKey("os")) {
+            return productRepository.findAllByOs(customQuery.get("os"));
+        } else if (customQuery.containsKey("osLike")) {
+            return productRepository.findAllByOsLike(customQuery.get("osLike"));
+        } else if (customQuery.containsKey("price") && customQuery.containsKey("operator")) {
+            return productRepository.findAllByPriceOperator(customQuery.get("price"), customQuery.get("operator"));
+        } else if (customQuery.containsKey("pageNumber") && customQuery.containsKey("pageSize")) {
+            Integer pageNumber = Integer.parseInt(customQuery.get("pageNumber"));
+            Integer pageSize = Integer.parseInt(customQuery.get("pageSize"));
+            Pageable paging = PageRequest.of(pageNumber, pageSize);
+            Page<Product> pagedResult = productRepository.findAll(paging);
+            return pagedResult.toList();
+        } else {
+            return productRepository.findAll();
+        }
     }
-
-    // GET products (by name LIKE)
-    public List<Product> findProductByNameLike (String name) {
-        return productRepository.findAllByNameLike(name);
-    }
-
-    // GET products (by os)
-    public List<Product> findProductByOs (String os) {
-        return productRepository.findAllByOs(os);
-    }
-
-    // GET products (by os LIKE)
-    public List<Product> findProductByOsLike (String os) {
-        return productRepository.findAllByOsLike(os);
-    }
-
-    // GET products (by additionalFeature)
-    public List<Product> findProductByAdditionalFeatures (String additionalFeature) {
-        return productRepository.findAllByAdditionalFeatures(additionalFeature);
-    }
-
-    // GET products (by additionalFeature LIKE)
-    public List<Product> findProductByAdditionalFeaturesLike (String additionalFeature) {
-        return productRepository.findAllByAdditionalFeaturesLike(additionalFeature);
-    }
-
-    // GET products (by price)
-    public List<Product> findProductByPrice (String price) {
-        return productRepository.findAllByPrice(price);
-    }
-
-
-    // GET products (by price GREATER THAN)
-    public List<Product> findProductByPriceGreaterThan (String price) {
-        return productRepository.findAllByPriceGreaterThan(price);
-    }
-
-    // GET products (by price GREATER THAN OR EQUAL TO)
-    public List<Product> findProductByPriceGreaterThanOrEqualTo (String price) {
-        return productRepository.findAllByPriceGreaterThanOrEqualTo(price);
-    }
-
-    // GET products (by price LESS THAN)
-    public List<Product> findProductByPriceLessThan (String price) {
-        return productRepository.findAllByPriceLessThan(price);
-    }
-
-    // GET products (by price LESS THAN)
-    public List<Product> findProductByPriceLessThanOrEqualTo (String price) {
-        return productRepository.findAllByPriceLessThanOrEqualTo(price);
-    }
-
-
 
     // POST products
     public Long createProductReturnId(final Product product) {
