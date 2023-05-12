@@ -1,4 +1,4 @@
-package spring.ecommerce.domain;
+package spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;

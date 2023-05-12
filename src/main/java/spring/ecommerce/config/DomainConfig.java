@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@EntityScan("spring.ecommerce.domain")
+@EntityScan("spring.ecommerce.model")
 @EnableJpaRepositories("spring.ecommerce.repos")
 @EnableTransactionManagement
 @EnableJpaAuditing(dateTimeProviderRef = "auditingDateTimeProvider")

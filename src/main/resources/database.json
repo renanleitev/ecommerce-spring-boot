@@ -15,6 +15,14 @@
       "address": "Rua das Conchas, 126",
       "email": "fulanosilva@email.com",
       "password": "123456"
+    },
+    {
+      "id": 3,
+      "name": "Beltrano",
+      "surname": "Pereira",
+      "address": "Rua das Casas, 777",
+      "email": "beltranopereira@email.com",
+      "password": "senhaforte777"
     }
   ],
   "products": [

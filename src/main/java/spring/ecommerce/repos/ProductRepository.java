@@ -1,23 +1,16 @@
 package spring.ecommerce.repos;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import spring.ecommerce.domain.Product;
+import spring.ecommerce.model.Product;
 
 import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     // Pode colocar pageable como segundo argumento, caso queira filtrar por página
-    List<Product> findAllByName(String name);
-
-    List<Product> findAllByOs(String os);
-
-    List<Product> findAllByAdditionalFeatures(String additionalFeatures);
-
     @Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT('%',:name,'%')")
     List<Product> findAllByNameLike(@Param("name") String name);
 
@@ -34,6 +27,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "(:operator = 'GreaterThan' and p.price > :price) OR" +
             "(:operator = 'GreaterThanOrEqualTo' and p.price >= :price)")
     List<Product> findAllByPriceOperator(@Param("price") String price, @Param("operator") String operator);
-
 
 }

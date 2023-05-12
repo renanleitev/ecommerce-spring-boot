@@ -2,19 +2,16 @@ package spring.ecommerce.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import spring.ecommerce.domain.Product;
-import spring.ecommerce.domain.User;
-import spring.ecommerce.model.UserDTO;
+import spring.ecommerce.model.User;
 import spring.ecommerce.repos.UserRepository;
-import spring.ecommerce.util.NotFoundException;
-
 
 @Service
 public class UserService {
@@ -26,59 +23,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    // Endpoints DTO (automatic)
-
-    public List<UserDTO> findAll() {
-        final List<User> users = userRepository.findAll(Sort.by("id"));
-        return users.stream()
-                .map((user) -> mapToDTO(user, new UserDTO()))
-                .toList();
-    }
-
-    public UserDTO get(final Long id) {
-        return userRepository.findById(id)
-                .map(user -> mapToDTO(user, new UserDTO()))
-                .orElseThrow(NotFoundException::new);
-    }
-
-    public Long create(final UserDTO userDTO) {
-        final User user = new User();
-        mapToEntity(userDTO, user);
-        return userRepository.save(user).getId();
-    }
-
-    public void update(final Long id, final UserDTO userDTO) {
-        final User user = userRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
-        mapToEntity(userDTO, user);
-        userRepository.save(user);
-    }
-
-    public void delete(final Long id) {
-        userRepository.deleteById(id);
-    }
-
-    private UserDTO mapToDTO(final User user, final UserDTO userDTO) {
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setSurname(user.getSurname());
-        userDTO.setAddress(user.getAddress());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setPassword(user.getPassword());
-        return userDTO;
-    }
-
-    private User mapToEntity(final UserDTO userDTO, final User user) {
-        user.setName(userDTO.getName());
-        user.setSurname(userDTO.getSurname());
-        user.setAddress(userDTO.getAddress());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        return user;
-    }
-
-    // Endpoints REST (manual)
-
     // Pagination users (pageNumber, pageSize)
     public List<User> filterUsers (Integer pageNumber, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
@@ -88,8 +32,7 @@ public class UserService {
 
     // GET users
     public List<User> findAllUsers () {
-        List<User> usersList = userRepository.findAll();
-        return usersList;
+        return userRepository.findAll();
     }
 
     // GET users (by id)
@@ -98,21 +41,41 @@ public class UserService {
     }
 
     // POST users
-    public Long createUserReturnId(final User user) {
+    public Long createUserReturnId(final User userRegistered) {
+        User user = new User();
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        user.setName(userRegistered.getName());
+        user.setSurname(userRegistered.getSurname());
+        user.setPassword(bcrypt.encode(userRegistered.getPassword()));
+        user.setEmail(userRegistered.getEmail());
+        user.setAddress(userRegistered.getAddress());
         return userRepository.save(user).getId();
+    }
+
+    // LOGIN users
+    public Boolean loginUser(final User userCredentials) {
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        Optional<User> user = userRepository.findByEmail(userCredentials.getEmail());
+        boolean isPasswordMatches = false;
+        if (user.isPresent()) {
+            User userDatabase = user.get();
+            isPasswordMatches = bcrypt.matches(userCredentials.getPassword(), userDatabase.getPassword());
+        }
+        return isPasswordMatches;
     }
 
     // PUT users
     public void updateUserById(final Long id, final User userUpdated) {
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
         userRepository.findById(id)
                 .map(user -> {
                     user.setName(userUpdated.getName());
                     user.setSurname(userUpdated.getSurname());
                     user.setAddress(userUpdated.getAddress());
                     user.setEmail(userUpdated.getEmail());
-                    user.setPassword(userUpdated.getPassword());
+                    user.setPassword(bcrypt.encode(userUpdated.getPassword()));
                     userRepository.save(user);
-                    return null;
+                    return "User Updated Successfully";
                 });
     }
 

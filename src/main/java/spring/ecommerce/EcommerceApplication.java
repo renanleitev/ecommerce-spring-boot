@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import spring.ecommerce.domain.Product;
-import spring.ecommerce.domain.User;
+import spring.ecommerce.model.Product;
+import spring.ecommerce.model.User;
 import spring.ecommerce.repos.ProductRepository;
 import spring.ecommerce.repos.UserRepository;
 
@@ -24,11 +24,14 @@ public class EcommerceApplication implements CommandLineRunner {
     }
 
     // Toda vez que rodar o servidor, irá inserir os dados no MySQL
-    // Usar apenas na primeira vez, descomentar e depois comentar o código abaixo
+    // Usar apenas na primeira vez, passar o valor firstLoad = true para executar o código
     // TODO: Pesquisar como converter o database.JSON para banco de dados
     @Override
     public void run(String... args) throws Exception {
-/*        // Users
+
+        Boolean firstLoad = false;
+
+        // Users
         String[] nameUser = {
               "admin",
               "Fulano",
@@ -54,16 +57,17 @@ public class EcommerceApplication implements CommandLineRunner {
                 "123456",
         };
 
-        for(int i = 0; i < nameUser.length; i++) {
-            User insertUser = new User();
-            insertUser.setName(nameUser[i]);
-            insertUser.setSurname(surname[i]);
-            insertUser.setAddress(address[i]);
-            insertUser.setEmail(email[i]);
-            insertUser.setPassword(password[i]);
-            databaseUser.save(insertUser);
+        if (firstLoad == true) {
+            for(int i = 0; i < nameUser.length; i++) {
+                User insertUser = new User();
+                insertUser.setName(nameUser[i]);
+                insertUser.setSurname(surname[i]);
+                insertUser.setAddress(address[i]);
+                insertUser.setEmail(email[i]);
+                insertUser.setPassword(password[i]);
+                databaseUser.save(insertUser);
+            }
         }
-
 
         // Products
         String[] nameProduct = {
@@ -143,16 +147,18 @@ public class EcommerceApplication implements CommandLineRunner {
                 "https://www.trustedreviews.com/wp-content/uploads/sites/54/2021/09/New-ipad-9.png",
         };
 
-        for(int i = 0; i < nameProduct.length; i++) {
-            Product insertProduct = new Product();
-            insertProduct.setName(nameProduct[i]);
-            insertProduct.setAdditionalFeatures(adFeat[i]);
-            insertProduct.setOs(os[i]);
-            insertProduct.setPrice(price[i]);
-            insertProduct.setImage(images[i]);
-            insertProduct.setDescription(description[i]);
-            databaseProduct.save(insertProduct);
-        }*/
+        if (firstLoad == true) {
+            for(int i = 0; i < nameProduct.length; i++) {
+                Product insertProduct = new Product();
+                insertProduct.setName(nameProduct[i]);
+                insertProduct.setAdditionalFeatures(adFeat[i]);
+                insertProduct.setOs(os[i]);
+                insertProduct.setPrice(price[i]);
+                insertProduct.setImage(images[i]);
+                insertProduct.setDescription(description[i]);
+                databaseProduct.save(insertProduct);
+            }
+        }
     }
 
 }

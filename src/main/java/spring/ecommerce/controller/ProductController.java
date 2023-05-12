@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import spring.ecommerce.domain.Product;
+import spring.ecommerce.model.Product;
 import spring.ecommerce.service.ProductService;
 
 import java.util.List;
