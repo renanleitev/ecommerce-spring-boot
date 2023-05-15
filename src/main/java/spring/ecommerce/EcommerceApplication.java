@@ -33,38 +33,38 @@ public class EcommerceApplication implements CommandLineRunner {
 
         // Users
         String[] nameUser = {
-              "admin",
-              "Fulano",
+              "admin"
+        };
+
+        String[] usernameUser = {
+                "admin"
         };
 
         String[] surname = {
-              "root",
-              "Silva",
+              "root"
         };
 
         String[] address = {
-              "System Street",
-              "Rua das Conchas",
+              "System Street"
         };
 
         String[] email = {
-                "admin@email.com",
-                "fulanosilva@email.com",
+                "admin@email.com"
         };
 
         String[] password = {
-                "adminroot",
-                "123456",
+                "$2a$10$gqHrslMttQWSsDSVRTK1OehkkBiXsJ/a4z2OURU./dizwOQu5Lovu"
         };
 
-        if (firstLoad == true) {
-            for(int i = 0; i < nameUser.length; i++) {
+        if (firstLoad) {
+            for(int i = 0; i <= nameUser.length; i++) {
                 User insertUser = new User();
                 insertUser.setName(nameUser[i]);
                 insertUser.setSurname(surname[i]);
                 insertUser.setAddress(address[i]);
                 insertUser.setEmail(email[i]);
                 insertUser.setPassword(password[i]);
+                insertUser.setUsername(usernameUser[i]);
                 databaseUser.save(insertUser);
             }
         }
@@ -147,7 +147,7 @@ public class EcommerceApplication implements CommandLineRunner {
                 "https://www.trustedreviews.com/wp-content/uploads/sites/54/2021/09/New-ipad-9.png",
         };
 
-        if (firstLoad == true) {
+        if (firstLoad) {
             for(int i = 0; i < nameProduct.length; i++) {
                 Product insertProduct = new Product();
                 insertProduct.setName(nameProduct[i]);

@@ -1,14 +1,18 @@
 package spring.ecommerce.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.ecommerce.model.User;
+import spring.ecommerce.service.AuthService;
 import spring.ecommerce.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "users")
 public class UserController {
@@ -33,13 +37,6 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    // POST users
-    @PostMapping
-    public Long createUser(@RequestBody @Valid final User user) {
-        final Long createdId = userService.createUserReturnId(user);
-        return createdId;
-    }
-
     // PUT users by id
     @PutMapping("/{id}")
     public void updateUser(
@@ -54,9 +51,12 @@ public class UserController {
         userService.deleteUserById(id);
     }
 
-    // LOGIN users
+    private AuthService authService;
+
+    // Build Login REST API
     @PostMapping("/login")
-    public Boolean loginUser(@RequestBody @Valid final User user){
-        return userService.loginUser(user);
+    public ResponseEntity<String> authenticate(@RequestBody User user){
+        String token = authService.login(user);
+        return ResponseEntity.ok(token);
     }
 }

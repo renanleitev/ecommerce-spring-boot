@@ -40,7 +40,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    // POST users
+/*    // POST users
     public Long createUserReturnId(final User userRegistered) {
         User user = new User();
         PasswordEncoder bcrypt = new BCryptPasswordEncoder();
@@ -50,7 +50,7 @@ public class UserService {
         user.setEmail(userRegistered.getEmail());
         user.setAddress(userRegistered.getAddress());
         return userRepository.save(user).getId();
-    }
+    }*/
 
     // LOGIN users
     public Boolean loginUser(final User userCredentials) {
