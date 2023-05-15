@@ -2,6 +2,7 @@ package spring.ecommerce.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import spring.ecommerce.model.Product;
@@ -18,12 +19,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // GET products
-    @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.findAllProducts();
-    }
-
     // GET products by id
     @GetMapping("/{id}")
     public Optional<Product> getProductById(@PathVariable(name = "id") final Long id) {
@@ -31,8 +26,8 @@ public class ProductController {
     }
 
     // GET products by query
-    @GetMapping("/params")
-    public List<Product> getProductByQuery(@RequestParam Map<String, String> customQuery){
+    @GetMapping()
+    public ResponseEntity<List<Product>> getProductByQuery(@RequestParam Map<String, String> customQuery){
         return productService.findProduct(customQuery);
     }
 
