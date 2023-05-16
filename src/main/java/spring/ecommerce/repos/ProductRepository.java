@@ -1,7 +1,5 @@
 package spring.ecommerce.repos;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Pode colocar pageable como segundo argumento, caso queira filtrar por página
 
     // EQUAL = Mais rápido (procura por índice)
+    // Procurando por nome exato
     // Ex: Marca = Apple, Xiaomi, etc.
     List<Product> findAllByName(String name);
 
@@ -28,17 +27,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.additionalFeatures LIKE CONCAT('%',:additionalFeatures,'%')")
     List<Product> findAllByAdditionalFeaturesLike(@Param("additionalFeatures") String additionalFeatures);
 
-    // products?price=200.67&operator=GreaterThan
-    // Evitar usar lógica no SQL
-    // TODO: Pesquisar sobre uso do OR ou LIKE em outros bancos de dados
-    // Escrever por "extenso" o nome das colunas para filtrar no SQL
-    // Evitar usar astericos ("*" / "p") no SQL
-    @Query("SELECT p FROM Product p WHERE " +
-            "(:operator = 'EqualTo' and p.price = :price) OR" +
-            "(:operator = 'LessThan' and p.price < :price) OR" +
-            "(:operator = 'LessThanOrEqualTo' and p.price <= :price) OR" +
-            "(:operator = 'GreaterThan' and p.price > :price) OR" +
-            "(:operator = 'GreaterThanOrEqualTo' and p.price >= :price)")
-    List<Product> findAllByPriceOperator(@Param("price") String price, @Param("operator") String operator);
+    // Procurando por preço exato
+    List<Product> findAllByPrice(String price);
+
+    @Query("SELECT p FROM Product p WHERE p.price < :price")
+    List<Product> findAllByPriceLessThan(@Param("price") String price);
+
+    @Query("SELECT p FROM Product p WHERE p.price <= :price")
+    List<Product> findAllByPriceLessThanOrEqualTo(@Param("price") String price);
+
+    @Query("SELECT p FROM Product p WHERE p.price > :price")
+    List<Product> findAllByPriceGreaterThan(@Param("price") String price);
+
+    @Query("SELECT p FROM Product p WHERE p.price >= :price")
+    List<Product> findAllByPriceGreaterThanOrEqualTo(@Param("price") String price);
 
 }

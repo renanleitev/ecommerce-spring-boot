@@ -13,9 +13,11 @@ import spring.ecommerce.repos.UserRepository;
 @SpringBootApplication
 public class EcommerceApplication implements CommandLineRunner {
 
+    // Obtendo o repositório de Product = Comunicação com o banco de dados
     @Autowired
     ProductRepository databaseProduct;
 
+    // Obtendo o repositório de User = Comunicação com o banco de dados
     @Autowired
     UserRepository databaseUser;
 
@@ -36,7 +38,7 @@ public class EcommerceApplication implements CommandLineRunner {
               "admin"
         };
 
-        String[] usernameUser = {
+        String[] username = {
                 "admin"
         };
 
@@ -56,7 +58,7 @@ public class EcommerceApplication implements CommandLineRunner {
                 "$2a$10$gqHrslMttQWSsDSVRTK1OehkkBiXsJ/a4z2OURU./dizwOQu5Lovu"
         };
 
-        if (firstLoad) {
+/*        if (firstLoad) {
             for(int i = 0; i <= nameUser.length; i++) {
                 User insertUser = new User();
                 insertUser.setName(nameUser[i]);
@@ -64,10 +66,10 @@ public class EcommerceApplication implements CommandLineRunner {
                 insertUser.setAddress(address[i]);
                 insertUser.setEmail(email[i]);
                 insertUser.setPassword(password[i]);
-                insertUser.setUsername(usernameUser[i]);
+                insertUser.setUsername(username[i]);
                 databaseUser.save(insertUser);
             }
-        }
+        }*/
 
         // Products
         String[] nameProduct = {

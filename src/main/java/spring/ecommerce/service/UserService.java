@@ -23,6 +23,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    // Map user to another
+    public User mapUser (User originalUser, User newUser){
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        newUser.setUsername(originalUser.getUsername());
+        newUser.setName(originalUser.getName());
+        newUser.setSurname(originalUser.getSurname());
+        newUser.setPassword(bcrypt.encode(originalUser.getPassword()));
+        newUser.setEmail(originalUser.getEmail());
+        newUser.setAddress(originalUser.getAddress());
+        return newUser;
+    }
+
     // Pagination users (pageNumber, pageSize)
     public List<User> filterUsers (Integer pageNumber, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNumber, pageSize);
@@ -40,43 +52,25 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-/*    // POST users
+    // POST users
     public Long createUserReturnId(final User userRegistered) {
+        Optional<User> userExists = userRepository.findByEmail(userRegistered.getEmail());
         User user = new User();
-        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
-        user.setName(userRegistered.getName());
-        user.setSurname(userRegistered.getSurname());
-        user.setPassword(bcrypt.encode(userRegistered.getPassword()));
-        user.setEmail(userRegistered.getEmail());
-        user.setAddress(userRegistered.getAddress());
-        return userRepository.save(user).getId();
-    }*/
-
-    // LOGIN users
-    public Boolean loginUser(final User userCredentials) {
-        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
-        Optional<User> user = userRepository.findByEmail(userCredentials.getEmail());
-        boolean isPasswordMatches = false;
-        if (user.isPresent()) {
-            User userDatabase = user.get();
-            isPasswordMatches = bcrypt.matches(userCredentials.getPassword(), userDatabase.getPassword());
+        if (userExists.isEmpty()) {
+            user = mapUser(userRegistered, user);
+            return userRepository.save(user).getId();
         }
-        return isPasswordMatches;
+        return null;
     }
 
     // PUT users
-    public void updateUserById(final Long id, final User userUpdated) {
-        PasswordEncoder bcrypt = new BCryptPasswordEncoder();
-        userRepository.findById(id)
+    public Boolean updateUserById(final Long id, final User userUpdated) {
+        return userRepository.findById(id)
                 .map(user -> {
-                    user.setName(userUpdated.getName());
-                    user.setSurname(userUpdated.getSurname());
-                    user.setAddress(userUpdated.getAddress());
-                    user.setEmail(userUpdated.getEmail());
-                    user.setPassword(bcrypt.encode(userUpdated.getPassword()));
+                    user = mapUser(userUpdated, user);
                     userRepository.save(user);
-                    return "User Updated Successfully";
-                });
+                    return user;
+                }).isPresent();
     }
 
     // DELETE users by id

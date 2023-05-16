@@ -1,23 +1,25 @@
 package spring.ecommerce.service;
 
-import java.util.List;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import spring.ecommerce.model.Product;
 import spring.ecommerce.model.Shopping;
-import spring.ecommerce.model.User;
-import spring.ecommerce.repos.ProductRepository;
 import spring.ecommerce.repos.ShoppingRepository;
-import spring.ecommerce.repos.UserRepository;
-import spring.ecommerce.util.NotFoundException;
+
+import java.util.List;
 
 
 @Service
 public class ShoppingService {
+    @Autowired
+    private final ShoppingRepository shoppingRepository;
 
-/*    private final ShoppingRepository shoppingRepository;
-    private final UserRepository userRepository;
-    private final ProductRepository productRepository;*/
+    public ShoppingService(ShoppingRepository shoppingRepository) {
+        this.shoppingRepository = shoppingRepository;
+    }
 
-
+    // POST products
+    public void saveProductsToShopping(List<Shopping> shoppingList) {
+        // TODO: Implementar loop para array de objetos
+            shoppingRepository.save(shoppingList.get(0));
+    }
 }

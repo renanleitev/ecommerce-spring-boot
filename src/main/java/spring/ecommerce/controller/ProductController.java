@@ -1,6 +1,7 @@
 package spring.ecommerce.controller;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "products")
 public class ProductController {
@@ -21,7 +23,8 @@ public class ProductController {
 
     // GET products by id
     @GetMapping("/{id}")
-    public Optional<Product> getProductById(@PathVariable(name = "id") final Long id) {
+    public Optional<Product> getProductById(@PathVariable(name = "id") final Long id, @RequestHeader(name="Authorization") String token) {
+        log.info(token);
         return productService.findProductById(id);
     }
 
