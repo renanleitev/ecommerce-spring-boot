@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.ecommerce.model.Product;
 import spring.ecommerce.model.User;
 import spring.ecommerce.repos.ProductRepository;
@@ -35,41 +37,54 @@ public class EcommerceApplication implements CommandLineRunner {
 
         // Users
         String[] nameUser = {
-              "admin"
+              "admin",
+              "Fulano",
+              "Beltrano"
         };
 
         String[] username = {
-                "admin"
+                "admin",
+                "fsilva",
+                "bpereira"
         };
 
         String[] surname = {
-              "root"
+              "root",
+              "Silva",
+              "Pereira"
         };
 
         String[] address = {
-              "System Street"
+              "System Street",
+              "Rua das Conchas",
+              "Rua das Palmeiras"
         };
 
         String[] email = {
-                "admin@email.com"
+                "admin@email.com",
+                "fulanosilva@email.com",
+                "beltranopereira@email.com"
         };
 
         String[] password = {
-                "$2a$10$gqHrslMttQWSsDSVRTK1OehkkBiXsJ/a4z2OURU./dizwOQu5Lovu"
+                "admin",
+                "123456",
+                "senhaforte777"
         };
 
-/*        if (firstLoad) {
-            for(int i = 0; i <= nameUser.length; i++) {
+        if (firstLoad) {
+            for(int i = 0; i < nameUser.length; i++) {
+                PasswordEncoder bcrypt = new BCryptPasswordEncoder();
                 User insertUser = new User();
                 insertUser.setName(nameUser[i]);
                 insertUser.setSurname(surname[i]);
                 insertUser.setAddress(address[i]);
                 insertUser.setEmail(email[i]);
-                insertUser.setPassword(password[i]);
+                insertUser.setPassword(bcrypt.encode(password[i]));
                 insertUser.setUsername(username[i]);
                 databaseUser.save(insertUser);
             }
-        }*/
+        }
 
         // Products
         String[] nameProduct = {
