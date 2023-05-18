@@ -3,10 +3,7 @@ package spring.ecommerce.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import spring.ecommerce.model.Product;
-import spring.ecommerce.model.Shopping;
-import spring.ecommerce.model.ShoppingCart;
-import spring.ecommerce.model.User;
+import spring.ecommerce.model.*;
 import spring.ecommerce.repos.ShoppingRepository;
 
 import java.util.List;
@@ -22,8 +19,7 @@ public class ShoppingService {
 
     // POST products
     public void saveProductsToShopping(List<ShoppingCart> shoppingCart) {
-        for (int i = 0; i < shoppingCart.size(); i++) {
-            ShoppingCart item = shoppingCart.get(i);
+        for (ShoppingCart item : shoppingCart) {
             Product product = new Product();
             product.setId(Long.valueOf(item.getProductId()));
             User user = new User();
@@ -37,7 +33,7 @@ public class ShoppingService {
         }
     }
 
-/*    public List<Shopping> showShoppings(String id){
-        return shoppingRepository.findAllByLeftJoin(id);
-    }*/
+    public List<ShoppingList> showShoppings(String id){
+        return shoppingRepository.findAllShoppingsByUserId(id);
+    }
 }

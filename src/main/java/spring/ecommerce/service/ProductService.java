@@ -31,43 +31,36 @@ public class ProductService {
     }
 
     public ResponseEntity<List<Product>> findProduct (Map<String, String> customQuery) {
-        switch (customQuery.keySet().toString()){
-            case "[_name]":
+        switch (customQuery.keySet().toString()) {
+            case "[_name]" -> {
                 String name = customQuery.get("_name");
                 return ResponseEntity.ok().body(productRepository.findAllByNameLike(name));
-            case "[_additionalFeatures]":
+            }
+            case "[_additionalFeatures]" -> {
                 String additionalFeatures = customQuery.get("_additionalFeatures");
                 return ResponseEntity.ok().body(productRepository.findAllByAdditionalFeaturesLike(additionalFeatures));
-            case "[_os]":
+            }
+            case "[_os]" -> {
                 String os = customQuery.get("_os");
                 return ResponseEntity.ok().body(productRepository.findAllByOsLike(os));
-            case "[_price]":
+            }
+            case "[_price]" -> {
                 return ResponseEntity.ok().body(productRepository.findAllByPrice(customQuery.get("_price")));
-            case "[_price, _operator]":
+            }
+            case "[_price, _operator]" -> {
                 String price = customQuery.get("_price");
                 String operator = customQuery.get("_operator");
-                List<Product> productsList;
-                switch (operator){
-                    case "EqualTo":
-                        productsList = productRepository.findAllByPrice(price);
-                        break;
-                    case "LessThan":
-                        productsList = productRepository.findAllByPriceLessThan(price);
-                        break;
-                    case "LessThanOrEqualTo":
-                        productsList = productRepository.findAllByPriceLessThanOrEqualTo(price);
-                        break;
-                    case "GreaterThan":
-                        productsList = productRepository.findAllByPriceGreaterThan(price);
-                        break;
-                    case "GreaterThanOrEqualTo":
-                        productsList = productRepository.findAllByPriceGreaterThanOrEqualTo(price);
-                        break;
-                    default:
-                        productsList = productRepository.findAll();
-                }
+                List<Product> productsList = switch (operator) {
+                    case "EqualTo" -> productRepository.findAllByPrice(price);
+                    case "LessThan" -> productRepository.findAllByPriceLessThan(price);
+                    case "LessThanOrEqualTo" -> productRepository.findAllByPriceLessThanOrEqualTo(price);
+                    case "GreaterThan" -> productRepository.findAllByPriceGreaterThan(price);
+                    case "GreaterThanOrEqualTo" -> productRepository.findAllByPriceGreaterThanOrEqualTo(price);
+                    default -> productRepository.findAll();
+                };
                 return ResponseEntity.ok().body(productsList);
-            case "[_page, _limit]":
+            }
+            case "[_page, _limit]" -> {
                 Integer pageNumber = Integer.parseInt(customQuery.get("_page"));
                 Integer pageSize = Integer.parseInt(customQuery.get("_limit"));
                 Pageable paging = PageRequest.of(pageNumber, pageSize);
@@ -78,8 +71,10 @@ public class ProductService {
                         .header("x-total-pages", totalPages.toString())
                         .header("x-total-count", totalProducts.toString())
                         .body(pagedResult.toList());
-            default:
+            }
+            default -> {
                 return ResponseEntity.ok().body(productRepository.findAll());
+            }
         }
     }
 

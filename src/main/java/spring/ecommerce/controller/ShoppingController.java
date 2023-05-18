@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.ecommerce.model.Shopping;
 import spring.ecommerce.model.ShoppingCart;
+import spring.ecommerce.model.ShoppingList;
 import spring.ecommerce.service.ShoppingService;
 
 import java.util.List;
@@ -24,9 +25,9 @@ public class ShoppingController {
         return ResponseEntity.ok().body(true);
     }
 
-/*    @GetMapping("/{id}")
-    public ResponseEntity<List<Shopping>> showProductsAndUsersInShoppings (@PathVariable(name = "id") String id) {
-        List<Shopping> list = shoppingService.showShoppings(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<List<ShoppingList>> showProductsAndUsersInShoppings (@PathVariable(name = "id") String id) {
+        List<ShoppingList> list = shoppingService.showShoppings(id);
         return ResponseEntity.ok().body(list);
-    }*/
+    }
 }

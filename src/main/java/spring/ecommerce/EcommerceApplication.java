@@ -7,8 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.ecommerce.model.Product;
+import spring.ecommerce.model.Role;
 import spring.ecommerce.model.User;
 import spring.ecommerce.repos.ProductRepository;
+import spring.ecommerce.repos.RoleRepository;
 import spring.ecommerce.repos.UserRepository;
 
 
@@ -23,17 +25,34 @@ public class EcommerceApplication implements CommandLineRunner {
     @Autowired
     UserRepository databaseUser;
 
+    // Obtendo o repositório de Role = Comunicação com o banco de dados
+    @Autowired
+    RoleRepository databaseRole;
+
     public static void main(final String[] args) {
         SpringApplication.run(EcommerceApplication.class, args);
     }
 
     // Toda vez que rodar o servidor, irá inserir os dados no MySQL
     // Usar apenas na primeira vez, passar o valor firstLoad = true para executar o código
-    // TODO: Pesquisar como converter o database.JSON para banco de dados
     @Override
     public void run(String... args) throws Exception {
 
         Boolean firstLoad = false;
+
+        // Roles
+        String[] nameRoles = {
+                "ADMIN",
+                "USER"
+        };
+
+        if (firstLoad) {
+            for (String nameRole : nameRoles) {
+                Role role = new Role();
+                role.setName(nameRole);
+                databaseRole.save(role);
+            }
+        }
 
         // Users
         String[] nameUser = {

@@ -4,16 +4,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import spring.ecommerce.model.Shopping;
+import spring.ecommerce.model.ShoppingList;
 
 import java.util.List;
 
 
 public interface ShoppingRepository extends JpaRepository<Shopping, Long> {
 
-    // TODO: Construir uma interface para abrigar a resposta da consulta SQL
-/*    @Query(value = "USE ecommerce; SELECT users.name, products.name, shoppings.quantity, shoppings.total_price, shoppings.date_created FROM shoppings\n" +
-            "LEFT JOIN users ON shoppings.user_id = users.id\n" +
-            "LEFT JOIN products ON shoppings.product_id = products.id\n" +
-            "WHERE users.id = 1", nativeQuery = true)
-    List<Shopping> findAllByLeftJoin(String id);*/
+    // Consultas JPQL são diferentes do SQL normal
+    // O foco é nas entidades, não no nome das tabelas
+    // https://stackoverflow.com/questions/36328063/how-to-return-a-custom-object-from-a-spring-data-jpa-group-by-query/36329166#36329166
+    @Query("SELECT new spring.ecommerce.model.ShoppingList(u.name, p.name, s.quantity, s.totalPrice, s.dateCreated) FROM Shopping s LEFT JOIN s.user u LEFT JOIN s.product p WHERE u.id = :id")
+    List<ShoppingList> findAllShoppingsByUserId(@Param("id") String id);
 }

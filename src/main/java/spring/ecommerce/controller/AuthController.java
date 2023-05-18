@@ -4,9 +4,13 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spring.ecommerce.model.Role;
 import spring.ecommerce.model.User;
 import spring.ecommerce.service.AuthService;
 import spring.ecommerce.service.UserService;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @RestController
@@ -20,6 +24,13 @@ public class AuthController {
     // Register User
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@RequestBody User user){
+        Set<Role> roleSet = new HashSet<>();
+        if (user.getEmail().equals("adminroot@email.com")) {
+            roleSet.add(new Role("ADMIN"));
+        } else {
+            roleSet.add(new Role("USER"));
+        }
+        user.setRoles(roleSet);
         Long id = userService.createUserReturnId(user);
         if (id == null) {
             return ResponseEntity.ok().body(false);
@@ -27,7 +38,7 @@ public class AuthController {
         String token = authService.login(user);
         return ResponseEntity.ok()
                 .header("Bearer ", token)
-                .header("Id", id.toString())
+                .header("Id ", id.toString())
                 .body(true);
     }
 
