@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -60,27 +58,10 @@ public class User {
     private OffsetDateTime lastUpdated;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles;
-
-/*    public User(
-            String name,
-            String surname,
-            String username,
-            String email,
-            String address,
-            String password,
-            Role... roles) {
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
-        this.email = email;
-        this.address = address;
-        this.password = password;
-        this.roles = Stream.of(roles).collect(Collectors.toSet());
-        this.roles.forEach(x -> x.getUsers().add(this));
-    }*/
 }

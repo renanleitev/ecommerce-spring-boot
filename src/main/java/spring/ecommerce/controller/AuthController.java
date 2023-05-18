@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import spring.ecommerce.model.Role;
 import spring.ecommerce.model.User;
 import spring.ecommerce.service.AuthService;
+import spring.ecommerce.service.RoleService;
 import spring.ecommerce.service.UserService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -20,6 +22,8 @@ public class AuthController {
     private AuthService authService;
 
     private UserService userService;
+
+    private RoleService roleService;
 
     // Register User
     @PostMapping("/register")
@@ -73,5 +77,11 @@ public class AuthController {
     public ResponseEntity<Boolean>  deleteUserById(@PathVariable(name = "id") final Long id){
         userService.deleteUserById(id);
         return ResponseEntity.ok().body(true);
+    }
+
+    // GET Roles
+    @GetMapping("roles")
+    public ResponseEntity<List<Role>> getRoles(){
+        return ResponseEntity.ok().body(roleService.findAllRoles());
     }
 }
