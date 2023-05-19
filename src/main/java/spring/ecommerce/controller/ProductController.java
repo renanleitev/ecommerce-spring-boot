@@ -1,19 +1,27 @@
 package spring.ecommerce.controller;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import spring.ecommerce.model.Product;
 import spring.ecommerce.service.ProductService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = {
+        "Authorization",
+        "Origin",
+        "x-total-pages",
+        "x-total-count",
+})
 @RestController
 @RequestMapping(value = "products")
 public class ProductController {
@@ -23,15 +31,32 @@ public class ProductController {
 
     // GET products by id
     @GetMapping("/{id}")
-    public Optional<Product> getProductById(@PathVariable(name = "id") final Long id, @RequestHeader(name="Authorization") String token) {
-        log.info(token);
+    public Optional<Product> getProductById(@PathVariable(name = "id") final Long id) {
         return productService.findProductById(id);
     }
 
     // GET products by query
-    @GetMapping()
-    public ResponseEntity<List<Product>> getProductByQuery(@RequestParam Map<String, String> customQuery){
-        return productService.findProduct(customQuery);
+    @GetMapping
+    public Map<String, List<Product>> getProductByQuery(@RequestParam Map<String, String> customQuery){
+        Map<String, List<Product>> response = new HashMap<>();
+        response.put("data", productService.findProduct(customQuery));
+        return response;
+    }
+
+    // GET products by page
+
+    @GetMapping("/pagination")
+    public ResponseEntity<List<Product>> getProductByPage(@RequestParam String _page, @RequestParam String _limit){
+        Integer pageNumber = Integer.parseInt(_page);
+        Integer pageSize = Integer.parseInt(_limit);
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Page<Product> pagedResult = productService.findProductByPage(paging);
+        Integer totalPages = pagedResult.getTotalPages();
+        Long totalProducts = pagedResult.getTotalElements();
+        return ResponseEntity.ok()
+                .header("x-total-pages", totalPages.toString())
+                .header("x-total-count", totalProducts.toString())
+                .body(pagedResult.toList());
     }
 
     // POST products

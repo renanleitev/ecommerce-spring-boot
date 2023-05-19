@@ -1,5 +1,6 @@
 package spring.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -44,6 +45,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String role;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonManagedReference
@@ -56,12 +60,4 @@ public class User {
     @LastModifiedDate
     @Column(nullable = false)
     private OffsetDateTime lastUpdated;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-    )
-    private Set<Role> roles;
 }

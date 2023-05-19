@@ -7,10 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.ecommerce.model.Product;
-import spring.ecommerce.model.Role;
 import spring.ecommerce.model.User;
 import spring.ecommerce.repos.ProductRepository;
-import spring.ecommerce.repos.RoleRepository;
 import spring.ecommerce.repos.UserRepository;
 
 
@@ -25,10 +23,6 @@ public class EcommerceApplication implements CommandLineRunner {
     @Autowired
     UserRepository databaseUser;
 
-    // Obtendo o repositório de Role = Comunicação com o banco de dados
-    @Autowired
-    RoleRepository databaseRole;
-
     public static void main(final String[] args) {
         SpringApplication.run(EcommerceApplication.class, args);
     }
@@ -39,20 +33,6 @@ public class EcommerceApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Boolean firstLoad = false;
-
-        // Roles
-        String[] nameRoles = {
-                "ADMIN",
-                "USER"
-        };
-
-        if (firstLoad) {
-            for (String nameRole : nameRoles) {
-                Role role = new Role();
-                role.setName(nameRole);
-                databaseRole.save(role);
-            }
-        }
 
         // Users
         String[] nameUser = {
@@ -80,7 +60,7 @@ public class EcommerceApplication implements CommandLineRunner {
         };
 
         String[] email = {
-                "admin@email.com",
+                "adminroot@email.com",
                 "fulanosilva@email.com",
                 "beltranopereira@email.com"
         };
@@ -101,6 +81,11 @@ public class EcommerceApplication implements CommandLineRunner {
                 insertUser.setEmail(email[i]);
                 insertUser.setPassword(bcrypt.encode(password[i]));
                 insertUser.setUsername(username[i]);
+                if (insertUser.getEmail().equals("adminroot@email.com")) {
+                    insertUser.setRole("ADMIN");
+                } else {
+                    insertUser.setRole("USER");
+                }
                 databaseUser.save(insertUser);
             }
         }

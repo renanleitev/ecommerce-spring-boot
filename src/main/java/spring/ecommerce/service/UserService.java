@@ -31,7 +31,7 @@ public class UserService {
         newUser.setPassword(bcrypt.encode(originalUser.getPassword()));
         newUser.setEmail(originalUser.getEmail());
         newUser.setAddress(originalUser.getAddress());
-        newUser.setRoles(originalUser.getRoles());
+        newUser.setRole(originalUser.getRole());
         return newUser;
     }
 
@@ -45,6 +45,11 @@ public class UserService {
     // GET users
     public List<User> findAllUsers () {
         return userRepository.findAll();
+    }
+
+    // GET users (by email)
+    public Optional<User> findUserByUsername(String username){
+        return userRepository.findByUsername(username);
     }
 
     // GET users (by id)
@@ -64,8 +69,8 @@ public class UserService {
     }
 
     // PUT users
-    public Boolean updateUserById(final Long id, final User userUpdated) {
-        return userRepository.findById(id)
+    public Boolean updateUserById(final User userUpdated) {
+        return userRepository.findById(userUpdated.getId())
                 .map(user -> {
                     user = mapUser(userUpdated, user);
                     userRepository.save(user);

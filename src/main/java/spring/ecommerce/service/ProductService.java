@@ -30,22 +30,22 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public ResponseEntity<List<Product>> findProduct (Map<String, String> customQuery) {
+    public List<Product> findProduct (Map<String, String> customQuery) {
         switch (customQuery.keySet().toString()) {
             case "[_name]" -> {
                 String name = customQuery.get("_name");
-                return ResponseEntity.ok().body(productRepository.findAllByNameLike(name));
+                return productRepository.findAllByNameLike(name);
             }
             case "[_additionalFeatures]" -> {
                 String additionalFeatures = customQuery.get("_additionalFeatures");
-                return ResponseEntity.ok().body(productRepository.findAllByAdditionalFeaturesLike(additionalFeatures));
+                return productRepository.findAllByAdditionalFeaturesLike(additionalFeatures);
             }
             case "[_os]" -> {
                 String os = customQuery.get("_os");
-                return ResponseEntity.ok().body(productRepository.findAllByOsLike(os));
+                return productRepository.findAllByOsLike(os);
             }
             case "[_price]" -> {
-                return ResponseEntity.ok().body(productRepository.findAllByPrice(customQuery.get("_price")));
+                return productRepository.findAllByPrice(customQuery.get("_price"));
             }
             case "[_price, _operator]" -> {
                 String price = customQuery.get("_price");
@@ -58,24 +58,17 @@ public class ProductService {
                     case "GreaterThanOrEqualTo" -> productRepository.findAllByPriceGreaterThanOrEqualTo(price);
                     default -> productRepository.findAll();
                 };
-                return ResponseEntity.ok().body(productsList);
-            }
-            case "[_page, _limit]" -> {
-                Integer pageNumber = Integer.parseInt(customQuery.get("_page"));
-                Integer pageSize = Integer.parseInt(customQuery.get("_limit"));
-                Pageable paging = PageRequest.of(pageNumber, pageSize);
-                Page<Product> pagedResult = productRepository.findAll(paging);
-                Integer totalPages = pagedResult.getTotalPages();
-                Long totalProducts = pagedResult.getTotalElements();
-                return ResponseEntity.ok()
-                        .header("x-total-pages", totalPages.toString())
-                        .header("x-total-count", totalProducts.toString())
-                        .body(pagedResult.toList());
+                return productsList;
             }
             default -> {
-                return ResponseEntity.ok().body(productRepository.findAll());
+                return productRepository.findAll();
             }
         }
+    }
+
+    // GET products by page
+    public Page<Product> findProductByPage (Pageable paging) {
+        return productRepository.findAll(paging);
     }
 
     // POST products

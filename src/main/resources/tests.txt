@@ -1,3 +1,6 @@
+// Para logar informações no console
+// @Slf4j
+
 // Como passar múltiplos parâmetros em uma mesma rota
 // Obs: Para cada condição, é necessário recriar as funções em productService
 
