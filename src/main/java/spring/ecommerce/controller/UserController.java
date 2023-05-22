@@ -10,6 +10,11 @@ import spring.ecommerce.service.UserService;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = {
+        "Authorization",
+        "Origin",
+        "Id"
+})
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "users")

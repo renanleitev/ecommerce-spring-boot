@@ -12,6 +12,11 @@ import spring.ecommerce.service.ShoppingService;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = {
+        "Authorization",
+        "Origin",
+        "Id"
+})
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "shoppings")
@@ -26,8 +31,8 @@ public class ShoppingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<ShoppingList>> showProductsAndUsersInShoppings (@PathVariable(name = "id") String id) {
-        List<ShoppingList> list = shoppingService.showShoppings(id);
+    public ResponseEntity<List<ShoppingList>> showProductsAndUsersInShoppings (@PathVariable(name = "id") String userId) {
+        List<ShoppingList> list = shoppingService.showShoppings(userId);
         return ResponseEntity.ok().body(list);
     }
 }

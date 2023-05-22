@@ -12,7 +12,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = {
         "Authorization",
         "Origin",
-        "Id", "Bearer"
+        "Id"
 })
 @AllArgsConstructor
 @RestController
@@ -37,8 +37,8 @@ public class AuthController {
         }
         String token = authService.login(user);
         return ResponseEntity.ok()
-                .header("Bearer ", token)
-                .header("Id ", id.toString())
+                .header("Authorization", token)
+                .header("Id", id.toString())
                 .body(true);
     }
 
@@ -54,7 +54,7 @@ public class AuthController {
             User userLogin = userDB.get();
             userLogin.setPassword(user.getPassword());
             return ResponseEntity.ok()
-                    .header("Bearer ", token)
+                    .header("Authorization", token)
                     .body(userLogin);
         } else {
             return ResponseEntity.ok().body(null);

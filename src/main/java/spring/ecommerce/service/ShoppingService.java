@@ -33,7 +33,7 @@ public class ShoppingService {
         }
     }
 
-    public List<ShoppingList> showShoppings(String id){
-        return shoppingRepository.findAllShoppingsByUserId(id);
+    public List<ShoppingList> showShoppings(String userId){
+        return shoppingRepository.findAllShoppingsByUserId(userId);
     }
 }
