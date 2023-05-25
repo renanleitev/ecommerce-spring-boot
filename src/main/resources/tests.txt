@@ -1,3 +1,6 @@
+// Expressão Regular
+// "^/users/pagination\\?_page=\\[0-9]+&_limit=\\[0-9]+$"
+
 // Para logar informações no console
 // @Slf4j
 

@@ -81,10 +81,11 @@ public class EcommerceApplication implements CommandLineRunner {
                 insertUser.setEmail(email[i]);
                 insertUser.setPassword(bcrypt.encode(password[i]));
                 insertUser.setUsername(username[i]);
+                // O role precisa vir com prefixo "ROLE_", para autenticação
                 if (insertUser.getEmail().equals("adminroot@email.com")) {
-                    insertUser.setRole("ADMIN");
+                    insertUser.setRole("ROLE_ADMIN");
                 } else {
-                    insertUser.setRole("USER");
+                    insertUser.setRole("ROLE_USER");
                 }
                 databaseUser.save(insertUser);
             }

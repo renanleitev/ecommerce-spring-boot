@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
 @AllArgsConstructor
@@ -31,14 +32,14 @@ public class SpringSecurityConfig {
     }
 
     // Cadeia de Segurança
-    // Primeiro, autoriza os caminhos necessários para autenticação (Ex: "/auth/**")
-    // Segundo, obriga qualquer outra rota a ser autenticada
-    // Terceiro, adiciona um filtro antes da requisição, para checar se foi passado o header com o Bearer token
+    // https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html
+    // Obs: Não precisa colocar prefixo "ROLE_" no hasRole
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeHttpRequests((authorize) -> {
-                    authorize.anyRequest().permitAll();
+                .authorizeHttpRequests((authorize) -> {authorize
+                        .requestMatchers(RegexRequestMatcher.regexMatcher("^/users/pagination\\?_page=\\[0-9]+&_limit=\\[0-9]+$")).hasRole("ADMIN")
+                        .anyRequest().permitAll();
                 });
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

@@ -51,7 +51,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     null,
                     userDetails.getAuthorities()
             );
-            log.info(authenticationToken.toString());
 
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -65,8 +64,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getTokenFromRequest(HttpServletRequest request){
 
         String token = request.getHeader("Authorization");
-
-        log.info(token);
 
         if (token == null || token.isEmpty()) {
             return null;

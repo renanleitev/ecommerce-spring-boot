@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spring.ecommerce.model.Product;
 import spring.ecommerce.model.User;
 import spring.ecommerce.repos.UserRepository;
 
@@ -35,11 +36,9 @@ public class UserService {
         return newUser;
     }
 
-    // Pagination users (pageNumber, pageSize)
-    public List<User> filterUsers (Integer pageNumber, Integer pageSize) {
-        Pageable paging = PageRequest.of(pageNumber, pageSize);
-        Page<User> pagedResult = userRepository.findAll(paging);
-        return pagedResult.toList();
+    // GET users by page
+    public Page<User> findUserByPage (Pageable paging) {
+        return userRepository.findAll(paging);
     }
 
     // GET users

@@ -27,9 +27,9 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@RequestBody User user){
         if (user.getEmail().equals("adminroot@email.com")) {
-            user.setRole("ADMIN");
+            user.setRole("ROLE_ADMIN");
         } else {
-            user.setRole("USER");
+            user.setRole("ROLE_USER");
         }
         Long id = userService.createUserReturnId(user);
         if (id == null) {
