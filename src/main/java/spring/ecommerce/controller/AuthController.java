@@ -28,6 +28,8 @@ public class AuthController {
     public ResponseEntity<Boolean> register(@RequestBody User user){
         if (user.getEmail().equals("adminroot@email.com")) {
             user.setRole("ROLE_ADMIN");
+        } else if (user.getEmail().equals("manager@email.com")) {
+            user.setRole("ROLE_MANAGER");
         } else {
             user.setRole("ROLE_USER");
         }
@@ -46,9 +48,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody User user){
         String token = authService.login(user);
-        if (token == null) {
-            return ResponseEntity.ok().body(null);
-        }
         Optional<User> userDB = userService.findUserByUsername(user.getUsername());
         if (userDB.isPresent()){
             User userLogin = userDB.get();

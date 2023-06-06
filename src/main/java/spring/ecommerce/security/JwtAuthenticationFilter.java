@@ -65,9 +65,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = request.getHeader("Authorization");
 
+        log.info(token);
+
         if (token == null || token.isEmpty()) {
             return null;
         }
+
+        log.info(token.substring(7, token.length()));
 
         return token.substring(7, token.length());
     }

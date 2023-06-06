@@ -17,50 +17,6 @@ Para rodar a aplicação, basta executar o arquivo principal EcommerceApplicatio
 
     src/main/java/io/bootify/my_app/EcommerceApplication.java
 
-## Swagger
-
-Acesse o Swagger pelo seguinte endereço:
-
-    http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/
-
-## Paginação (User e Product)
-
-User:
-
-    http://localhost:8080/users?pageNumber=0&pageSize=2
-
-Product:
-
-    http://localhost:8080/products?pageNumber=0&pageSize=2
-
-TODO: Paginação Shopping
-
-## Modificar os métodos de paginação
-
-controller > HomeController:
-
-User:
-
-    @GetMapping("/users")
-    public List<User> getPaginatedUsers(
-            @RequestParam Integer pageNumber,
-            @RequestParam Integer pageSize) {
-        return userService.filterUsers(pageNumber, pageSize);
-    }
-
-Product:
-
-    @GetMapping("/products")
-    public List<Product> getPaginatedProducts(
-            @RequestParam Integer pageNumber,
-            @RequestParam Integer pageSize) {
-        return productService.filterProducts(pageNumber, pageSize);
-    }
-
-Obs: Trocar pageNumber e pageSize pelo nome dos métodos desejados 
-
-TODO: Pesquisar outros métodos de paginação
-
 ## Erro no Timestamp
 
 Caso ocorra algum erro no dateCreated e no lastUpdated, se não gerar automaticamente o timestamp, substituir nos models de cada entidade/tabela:
@@ -108,10 +64,6 @@ domain > Shopping.java
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonBackReference
     private Product product;
-
-Obs: Comentar esses trechos para desativar as referências a outras entidades, caso queira mostrar entidades puras
-
-TODO: Pesquisar um método melhor para remover essas referências
 
 ## Links
 

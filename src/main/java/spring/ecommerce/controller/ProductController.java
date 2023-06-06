@@ -37,10 +37,25 @@ public class ProductController {
 
     // GET products by query
     @GetMapping
-    public Map<String, List<Product>> getProductByQuery(@RequestParam Map<String, String> customQuery){
-        Map<String, List<Product>> response = new HashMap<>();
-        response.put("data", productService.findProduct(customQuery));
-        return response;
+    public ResponseEntity<List<Product>>  getProductByQuery(@RequestParam Map<String, String> customQuery){
+        Map<String, Page<Product>> response = new HashMap<>();
+        Integer pageNumber = 0;
+        Integer pageSize = 1;
+        String page = customQuery.get("_page");
+        String limit = customQuery.get("_limit");
+        if (page != null && limit != null) {
+            pageNumber = Integer.parseInt(page);
+            pageSize = Integer.parseInt(limit);
+        }
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Page<Product> pagedResult = productService.findProduct(customQuery, paging);
+        response.put("data", pagedResult);
+        Integer totalPages = pagedResult.getTotalPages();
+        Long totalProducts = pagedResult.getTotalElements();
+        return ResponseEntity.ok()
+                .header("x-total-pages", totalPages.toString())
+                .header("x-total-count", totalProducts.toString())
+                .body(pagedResult.toList());
     }
 
     // GET products by page

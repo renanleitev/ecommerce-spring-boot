@@ -6,13 +6,12 @@ import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import spring.ecommerce.model.Product;
 import spring.ecommerce.repos.ProductRepository;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @Service
@@ -30,38 +29,39 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public List<Product> findProduct (Map<String, String> customQuery) {
+    public Page<Product> findProduct (Map<String, String> customQuery, Pageable paging) {
         switch (customQuery.keySet().toString()) {
-            case "[_name]" -> {
+            case "[_name, _page, _limit]" -> {
                 String name = customQuery.get("_name");
-                return productRepository.findAllByNameLike(name);
+                return productRepository.findAllByNameLike(name, paging);
             }
-            case "[_additionalFeatures]" -> {
+            case "[_additionalFeatures, _page, _limit]" -> {
                 String additionalFeatures = customQuery.get("_additionalFeatures");
-                return productRepository.findAllByAdditionalFeaturesLike(additionalFeatures);
+                return productRepository.findAllByAdditionalFeaturesLike(additionalFeatures, paging);
             }
-            case "[_os]" -> {
+            case "[_os, _page, _limit]" -> {
                 String os = customQuery.get("_os");
-                return productRepository.findAllByOsLike(os);
+                return productRepository.findAllByOsLike(os, paging);
             }
-            case "[_price]" -> {
-                return productRepository.findAllByPrice(customQuery.get("_price"));
+            case "[_price, _page, _limit]" -> {
+                String price = customQuery.get("_price");
+                return productRepository.findAllByPrice(price, paging);
             }
-            case "[_price, _operator]" -> {
+            case "[_price, _operator, _page, _limit]" -> {
                 String price = customQuery.get("_price");
                 String operator = customQuery.get("_operator");
-                List<Product> productsList = switch (operator) {
-                    case "EqualTo" -> productRepository.findAllByPrice(price);
-                    case "LessThan" -> productRepository.findAllByPriceLessThan(price);
-                    case "LessThanOrEqualTo" -> productRepository.findAllByPriceLessThanOrEqualTo(price);
-                    case "GreaterThan" -> productRepository.findAllByPriceGreaterThan(price);
-                    case "GreaterThanOrEqualTo" -> productRepository.findAllByPriceGreaterThanOrEqualTo(price);
-                    default -> productRepository.findAll();
+                Page<Product> productsList = switch (operator) {
+                    case "EqualTo" -> productRepository.findAllByPrice(price, paging);
+                    case "LessThan" -> productRepository.findAllByPriceLessThan(price, paging);
+                    case "LessThanOrEqualTo" -> productRepository.findAllByPriceLessThanOrEqualTo(price, paging);
+                    case "GreaterThan" -> productRepository.findAllByPriceGreaterThan(price, paging);
+                    case "GreaterThanOrEqualTo" -> productRepository.findAllByPriceGreaterThanOrEqualTo(price, paging);
+                    default -> productRepository.findAll(paging);
                 };
                 return productsList;
             }
             default -> {
-                return productRepository.findAll();
+                return productRepository.findAll(paging);
             }
         }
     }

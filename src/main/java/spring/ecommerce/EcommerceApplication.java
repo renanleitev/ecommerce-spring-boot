@@ -36,39 +36,45 @@ public class EcommerceApplication implements CommandLineRunner {
 
         // Users
         String[] nameUser = {
-              "admin",
-              "Fulano",
-              "Beltrano"
+                "admin",
+                "Fulano",
+                "Beltrano",
+                "Manager"
         };
 
         String[] username = {
                 "admin",
                 "fsilva",
-                "bpereira"
+                "bpereira",
+                "manager"
         };
 
         String[] surname = {
-              "root",
-              "Silva",
-              "Pereira"
+                "root",
+                "Silva",
+                "Pereira",
+                "Manager"
         };
 
         String[] address = {
-              "System Street",
-              "Rua das Conchas",
-              "Rua das Palmeiras"
+                "System Street",
+                "Rua das Conchas",
+                "Rua das Palmeiras",
+                "Rua do Manager"
         };
 
         String[] email = {
                 "adminroot@email.com",
                 "fulanosilva@email.com",
-                "beltranopereira@email.com"
+                "beltranopereira@email.com",
+                "manager@email.com"
         };
 
         String[] password = {
                 "admin",
                 "123456",
-                "senhaforte777"
+                "senhaforte777",
+                "manager"
         };
 
         if (firstLoad) {
@@ -84,6 +90,8 @@ public class EcommerceApplication implements CommandLineRunner {
                 // O role precisa vir com prefixo "ROLE_", para autenticação
                 if (insertUser.getEmail().equals("adminroot@email.com")) {
                     insertUser.setRole("ROLE_ADMIN");
+                } else if (insertUser.getEmail().equals("manager@email.com")) {
+                    insertUser.setRole("ROLE_MANAGER");
                 } else {
                     insertUser.setRole("ROLE_USER");
                 }
