@@ -1,14 +1,11 @@
 package spring.ecommerce.controller;
 
-import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import spring.ecommerce.model.Product;
 import spring.ecommerce.model.User;
 import spring.ecommerce.service.UserService;
 
@@ -22,7 +19,6 @@ import java.util.Optional;
         "x-total-pages",
         "x-total-count",
 })
-@AllArgsConstructor
 @RestController
 @RequestMapping(value = "users")
 public class UserController {

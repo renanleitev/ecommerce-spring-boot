@@ -29,6 +29,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.additionalFeatures LIKE CONCAT('%',:additionalFeatures,'%')")
     Page<Product> findAllByAdditionalFeaturesLike(@Param("additionalFeatures") String additionalFeatures, Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE p.description LIKE CONCAT('%',:description,'%')")
+    Page<Product> findAllByDescriptionLike(@Param("description") String description, Pageable pageable);
+
     // Procurando por preço exato
     Page<Product> findAllByPrice(String price, Pageable pageable);
 

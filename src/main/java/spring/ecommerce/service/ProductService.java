@@ -39,6 +39,10 @@ public class ProductService {
                 String additionalFeatures = customQuery.get("_additionalFeatures");
                 return productRepository.findAllByAdditionalFeaturesLike(additionalFeatures, paging);
             }
+            case "[_description, _page, _limit]" -> {
+                String description = customQuery.get("_description");
+                return productRepository.findAllByDescriptionLike(description, paging);
+            }
             case "[_os, _page, _limit]" -> {
                 String os = customQuery.get("_os");
                 return productRepository.findAllByOsLike(os, paging);
