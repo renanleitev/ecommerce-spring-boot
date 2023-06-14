@@ -2,6 +2,8 @@ package spring.ecommerce.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spring.ecommerce.model.*;
 import spring.ecommerce.repos.ShoppingRepository;
@@ -33,7 +35,7 @@ public class ShoppingService {
         }
     }
 
-    public List<ShoppingList> showShoppings(String userId){
-        return shoppingRepository.findAllShoppingsByUserId(userId);
+    public Page<ShoppingList> showShoppings(String userId, Pageable paging){
+        return shoppingRepository.findAllShoppingsByUserId(userId, paging);
     }
 }
