@@ -9,6 +9,9 @@ import spring.ecommerce.service.AuthService;
 import spring.ecommerce.service.UserService;
 import java.util.Optional;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Auth", description = "API for auth model")
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = {
         "Authorization",
         "Origin",

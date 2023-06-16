@@ -1,6 +1,7 @@
 package spring.ecommerce.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,38 @@ public class UserService {
     // GET users by page
     public Page<User> findUserByPage (Pageable paging) {
         return userRepository.findAll(paging);
+    }
+
+    public Page<User> findUser (Map<String, String> customQuery, Pageable paging) {
+        switch (customQuery.keySet().toString()) {
+            case "[_username, _page, _limit]" -> {
+                String username = customQuery.get("_username");
+                return userRepository.findAllByNameLike(username, paging);
+            }
+            case "[_name, _page, _limit]" -> {
+                String name = customQuery.get("_name");
+                return userRepository.findAllByNameLike(name, paging);
+            }
+            case "[_surname, _page, _limit]" -> {
+                String surname = customQuery.get("_surname");
+                return userRepository.findAllBySurnameLike(surname, paging);
+            }
+            case "[_address, _page, _limit]" -> {
+                String address = customQuery.get("_address");
+                return userRepository.findAllByAddressLike(address, paging);
+            }
+            case "[_email, _page, _limit]" -> {
+                String email = customQuery.get("_email");
+                return userRepository.findAllByEmailLike(email, paging);
+            }
+            case "[_role, _page, _limit]" -> {
+                String role = customQuery.get("_role");
+                return userRepository.findAllByRoleLike(role, paging);
+            }
+            default -> {
+                return userRepository.findAll(paging);
+            }
+        }
     }
 
     // GET users

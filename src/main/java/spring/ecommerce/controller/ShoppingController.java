@@ -15,6 +15,9 @@ import spring.ecommerce.service.ShoppingService;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Shopping", description = "API for shopping model")
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = {
         "Authorization",
         "Origin",

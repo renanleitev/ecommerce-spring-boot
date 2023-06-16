@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Products", description = "API for products model")
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = {
         "Authorization",
         "Origin",
@@ -49,7 +52,6 @@ public class ProductController {
         }
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<Product> pagedResult = productService.findProduct(customQuery, paging);
-        response.put("data", pagedResult);
         Integer totalPages = pagedResult.getTotalPages();
         Long totalProducts = pagedResult.getTotalElements();
         return ResponseEntity.ok()
