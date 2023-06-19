@@ -71,7 +71,7 @@ public class EcommerceApplication implements CommandLineRunner {
         };
 
         String[] password = {
-                "admin",
+                "adminroot",
                 "123456",
                 "senhaforte777",
                 "manager"
