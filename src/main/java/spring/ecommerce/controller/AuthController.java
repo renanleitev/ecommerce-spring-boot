@@ -59,7 +59,7 @@ public class AuthController {
                     .header("Authorization", token)
                     .body(userLogin);
         } else {
-            return ResponseEntity.ok().body(null);
+            return ResponseEntity.ok().body(user);
         }
 
     }
