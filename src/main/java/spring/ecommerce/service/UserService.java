@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import spring.ecommerce.model.Product;
+
 import spring.ecommerce.model.User;
 import spring.ecommerce.repos.UserRepository;
 
@@ -67,6 +68,16 @@ public class UserService {
             case "[_role, _page, _limit]" -> {
                 String role = customQuery.get("_role");
                 return userRepository.findAllByRoleLike(role, paging);
+            }
+            case "[_column, _order, _page, _limit]" -> {
+                String column = customQuery.get("_column");
+                String order = customQuery.get("_order");
+                Page<User> usersList = switch (order) {
+                    case "ASC" -> userRepository.findAll(PageRequest.of(paging.getPageNumber(), paging.getPageSize(), Sort.by(Sort.Direction.ASC, column)));
+                    case "DESC" -> userRepository.findAll(PageRequest.of(paging.getPageNumber(), paging.getPageSize(), Sort.by(Sort.Direction.DESC, column)));
+                    default -> userRepository.findAll(paging);
+                };
+                return usersList;
             }
             default -> {
                 return userRepository.findAll(paging);

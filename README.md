@@ -4,7 +4,7 @@ Aplicação criada com uso do [Bootify.io](https://bootify.io/next-steps/).
 
 ## Banco de Dados (MySQL)
 
-Trocar o nome e a senha do MySQL no arquivo application.yml (default: root/17091997):
+Trocar o nome e a senha do MySQL no arquivo application.yml (default: root/17091997)
 
     username: ${JDBC_DATABASE_USERNAME:<<NOME_USUÁRIO>>}
     password: ${JDBC_DATABASE_PASSWORD:<<SENHA>>}
@@ -27,6 +27,13 @@ Para modificar as rotas disponíveis no Swagger, alterar no arquivo application.
 
     springdoc:
         pathsToMatch: /**
+
+## Conta de Administrador e de Manager
+
+Modificar no arquivo application.properties
+
+    ADMIN_EMAIL=adminroot@email.com
+    MANAGER_EMAIL=manager@email.com
 
 ## Links
 

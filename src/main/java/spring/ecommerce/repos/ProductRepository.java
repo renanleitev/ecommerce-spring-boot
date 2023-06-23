@@ -12,14 +12,8 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    // Pode colocar pageable como segundo argumento, caso queira filtrar por página
-
-    // EQUAL = Mais rápido (procura por índice)
-    // Procurando por nome exato
-    // Ex: Marca = Apple, Xiaomi, etc.
-    List<Product> findAllByName(String name);
-
     // LIKE = Mais lento (não procura por índice)
+    // Pode colocar pageable como segundo argumento, caso queira filtrar por página
     @Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT('%',:name,'%')")
     Page<Product> findAllByNameLike(@Param("name") String name, Pageable pageable);
 

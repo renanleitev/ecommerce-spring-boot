@@ -1,5 +1,6 @@
 package spring.ecommerce;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,16 +28,15 @@ public class EcommerceApplication implements CommandLineRunner {
         SpringApplication.run(EcommerceApplication.class, args);
     }
 
-    // Toda vez que rodar o servidor, irá inserir os dados no MySQL
-    // Usar apenas na primeira vez, passar o valor firstLoad = true para executar o código
+    // Toda vez que rodar o servidor, irá inserir os dados no MySQL, se firstLoad = true
     @Override
     public void run(String... args) throws Exception {
-
+        // Usar apenas na primeira vez, passar o valor firstLoad = true para executar o código
         Boolean firstLoad = false;
 
         // Users
         String[] nameUser = {
-                "admin",
+                "Administrador",
                 "Fulano",
                 "Beltrano",
                 "Manager"
@@ -50,10 +50,10 @@ public class EcommerceApplication implements CommandLineRunner {
         };
 
         String[] surname = {
-                "root",
+                "Sistema",
                 "Silva",
                 "Pereira",
-                "Manager"
+                "Site"
         };
 
         String[] address = {

@@ -2,6 +2,8 @@ package spring.ecommerce.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.ecommerce.model.User;
@@ -26,12 +28,16 @@ public class AuthController {
 
     private UserService userService;
 
+    // Obtendo as variáveis de ambiente
+    @Autowired
+    private Environment env;
+
     // Register User
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@RequestBody User user){
-        if (user.getEmail().equals("adminroot@email.com")) {
+        if (user.getEmail().equals(env.getProperty("ADMIN_EMAIL"))){
             user.setRole("ROLE_ADMIN");
-        } else if (user.getEmail().equals("manager@email.com")) {
+        } else if (user.getEmail().equals(env.getProperty("ADMIN_MANAGER"))){
             user.setRole("ROLE_MANAGER");
         } else {
             user.setRole("ROLE_USER");

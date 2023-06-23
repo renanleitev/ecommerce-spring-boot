@@ -7,6 +7,7 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import spring.ecommerce.model.Product;
 import spring.ecommerce.repos.ProductRepository;
@@ -60,6 +61,16 @@ public class ProductService {
                     case "LessThanOrEqualTo" -> productRepository.findAllByPriceLessThanOrEqualTo(price, paging);
                     case "GreaterThan" -> productRepository.findAllByPriceGreaterThan(price, paging);
                     case "GreaterThanOrEqualTo" -> productRepository.findAllByPriceGreaterThanOrEqualTo(price, paging);
+                    default -> productRepository.findAll(paging);
+                };
+                return productsList;
+            }
+            case "[_column, _order, _page, _limit]" -> {
+                String column = customQuery.get("_column");
+                String order = customQuery.get("_order");
+                Page<Product> productsList = switch (order) {
+                    case "ASC" -> productRepository.findAll(PageRequest.of(paging.getPageNumber(), paging.getPageSize(), Sort.by(Sort.Direction.ASC, column)));
+                    case "DESC" -> productRepository.findAll(PageRequest.of(paging.getPageNumber(), paging.getPageSize(), Sort.by(Sort.Direction.DESC, column)));
                     default -> productRepository.findAll(paging);
                 };
                 return productsList;
