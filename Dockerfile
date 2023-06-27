@@ -2,10 +2,11 @@ FROM eclipse-temurin:17.0.7_7-jre-jammy
  
 WORKDIR /app
  
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+COPY pom.xml .
+RUN mvn dependency:go-offline
  
-COPY src ./src
+COPY src src
+RUN mvn clean package
  
-CMD ["./mvnw", "spring-boot:run"]
+COPY /ecommerce-spring-boot/target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
