@@ -32,7 +32,7 @@ public class EcommerceApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Usar apenas na primeira vez, passar o valor firstLoad = true para executar o código
-        Boolean firstLoad = false;
+        Boolean firstLoad = true;
 
         // Users
         String[] nameUser = {
